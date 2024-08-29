@@ -26,10 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('tokens:cron')
-//            ->timezone('Asia/Damascus') // Set to Syria time
-            ->everyMinute();
-//            ->dailyAt('04:00');
-//            ->appendOutputTo('cron.txt');
+            ->everySixHours();
 
     }
 

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use App\Models\Tokens;
 use DateTime;
@@ -42,20 +43,8 @@ class DeleteExpiredTokens extends Command
      */
     public function handle()
     {
-        $now = Carbon::now();
+        PersonalAccessToken::where('expires_at','<', Carbon::now())->delete();
 
-        $limit = $now->subHours(6);
-
-        try{
-            $delete = DB::table('personal_access_tokens')
-                ->where('created_at', '<', $limit)
-                ->delete();
-        }
-        catch (\Illuminate\Database\QueryException $e)
-        {
-            echo "error deleting!! ".$e;
-        }
-
-        echo "Deleted OK for today... ".date('Y-m-d')." , items deleted == ".$delete."<br>";
+        echo'The command has been executed';
     }
 }
